@@ -1,55 +1,108 @@
 import styled from "styled-components";
 
 const SidebarCss = styled.div`
-  position: fixed;
+  position: absolute;
   background: #ffffff;
   width: 44px;
   height: 894px;
   border-right: 1px solid #efefef;
-  padding: 13px;
+  padding: 0 13px;
   z-index: 9;
-  transition: all 0.4s ease;
-  .open-bt {
+  transition: all 0.5s ease;
+  .side-top {
     position: relative;
-    display: flex;
-    justify-content: center;
-    cursor: pointer;
-    height: 100%;
-    span {
-      position: absolute;
-      width: 18px;
-      height: 0px;
-      border: 2px solid #6d6d6d;
-      border-radius: 2px;
-      transition: all 0.4s;
-      :nth-of-type(1) {
-        top: 10px;
-      }
-      :nth-of-type(2) {
-        top: 16px;
-      }
-      :nth-of-type(3) {
-        top: 22px;
-      }
+    p {
+      display: none;
+      opacity: 0;
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 19px;
+      color: #232324;
     }
-    &.active {
+    .open-bt {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      cursor: pointer;
       span {
+        position: absolute;
+        width: 18px;
+        height: 0px;
+        border: 1.5px solid #6d6d6d;
+        border-radius: 2px;
+        transition: all 0.5s;
         :nth-of-type(1) {
-          top: 22px;
-          transform: translateY(-6px) rotate(45deg);
+          top: 14px;
         }
         :nth-of-type(2) {
-          opacity: 0;
+          top: 20px;
         }
         :nth-of-type(3) {
-          top: 10px;
-          transform: translateY(6px) rotate(-45deg);
+          top: 26px;
+        }
+      }
+      &.active {
+        position: absolute;
+        right: 10px;
+        span {
+          :nth-of-type(1) {
+            top: -6px;
+            transform: translateY(6px) rotate(45deg);
+          }
+          :nth-of-type(2) {
+            opacity: 0;
+          }
+          :nth-of-type(3) {
+            top: -6px;
+            transform: translateY(6px) rotate(-45deg);
+          }
         }
       }
     }
   }
+  .file-bt {
+    position: absolute;
+    display: none;
+    bottom: 20px;
+    transform: translateX(-100%);
+    animation-name: slide;
+    animation-duration: 0.5s;
+    animation-timing-function: ease;
+    animation-fill-mode: forwards;
+  }
   &.active {
     width: 240px;
+    padding: 20px 12px;
+    .side-top {
+      display: flex;
+      position: relative;
+      p {
+        display: block;
+        opacity: 1;
+        position: absolute;
+        top: -7px;
+        left: 0;
+      }
+    }
+    .file-bt {
+      display: block;
+      transform: translateX(0%);
+      animation-name: slide;
+      animation-duration: 0.5s;
+      animation-timing-function: ease;
+      animation-fill-mode: forwards;
+    }
+  }
+
+  @keyframes slide {
+    from {
+      transform: translateX(-100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0%);
+      opacity: 1;
+    }
   }
 `;
 

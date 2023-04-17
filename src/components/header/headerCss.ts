@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 const HeaderCss = styled.div`
   background: #6d6d6d;
-  width: 1236px;
+  width: 100%;
   height: 42px;
   padding: 6px 20px;
   font-size: 14px;

@@ -1,4 +1,5 @@
 import FileBt from "../fileBt/fileBt";
+import Modal from "../modal/modal";
 import SidebarCss from "./sidebarCss";
 
 interface ISidebar {
@@ -21,6 +22,9 @@ const Sidebar = (props: ISidebar) => {
           <span></span>
           <span></span>
         </div>
+      </div>
+      <div>
+        {/* <Modal /> */}
       </div>
       <div className="file-bt">
         <FileBt />

@@ -4,10 +4,24 @@ import Sidebar from "../../components/sidebar/sidebar";
 import EditorCss from "./EditorCss";
 import FileBt from "../../components/fileBt/fileBt";
 
+export interface IFiles {
+  id: number;
+  name: string;
+  file: File;
+  url: string;
+}
+
+export interface IPreview {
+  name: string;
+  url: string;
+}
+
 const Editor = () => {
   const [open, setOpen] = useState(false);
-  const [selected, setSelected] = useState(null);
-  const [files, setFiles] = useState([]);
+  const [preview, setPreview] = useState<IPreview[]>([]);
+  const [files, setFiles] = useState<IFiles[]>([]);
+
+  console.log(preview);
 
   return (
     <>
@@ -20,7 +34,7 @@ const Editor = () => {
             하단의 버튼을 눌러 파일을 추가해주세요.
           </div>
           <div className="file-bt">
-            <FileBt />
+            <FileBt files={files} setFiles={setFiles} setPreview={setPreview} />
           </div>
         </div>
       </EditorCss>

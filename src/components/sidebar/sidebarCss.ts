@@ -60,6 +60,11 @@ const SidebarCss = styled.div`
       }
     }
   }
+  .file-list {
+    position: absolute;
+    display: none;
+    top: 55px;
+  }
   .file-bt {
     position: absolute;
     display: none;
@@ -82,6 +87,26 @@ const SidebarCss = styled.div`
         position: absolute;
         top: -7px;
         left: 0;
+      }
+    }
+    .file-list {
+      display: block;
+      transform: translateX(0%);
+      animation-name: slide;
+      animation-duration: 0.5s;
+      animation-timing-function: ease;
+      animation-fill-mode: forwards;
+      .file {
+        width: calc(240px - 24px);
+        height: 41px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        img {
+          width: 14px;
+          height: 16px;
+          cursor: pointer;
+        }
       }
     }
     .file-bt {

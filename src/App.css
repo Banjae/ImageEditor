@@ -3,3 +3,7 @@ body {
   height: 894px;
   margin: 0 auto;
 }
+ul,
+li {
+  list-style: none;
+}

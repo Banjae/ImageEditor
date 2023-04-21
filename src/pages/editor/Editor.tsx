@@ -21,13 +21,6 @@ const Editor = () => {
   const [open, setOpen] = useState(false);
   const [files, setFiles] = useState<IFiles[]>([]);
   const [preview, setPreview] = useState<IPreiew | null>(null);
-  const [selctDiv, setSelectDiv] = useState<string>("");
-
-  useEffect(() => {
-    if (files.length > 0) {
-      setSelectDiv(files[0].id.toString());
-    }
-  }, [files]);
 
   const addFile = (file: IFiles) => {
     setFiles((prevFiles) => [...prevFiles, file]);
@@ -41,17 +34,8 @@ const Editor = () => {
     storagePrev && setPreview(JSON.parse(storagePrev));
   }, []);
 
-  useEffect(() => {
-    if (files.length > 0) {
-      setSelectDiv(files[0].name);
-      setPreview({ name: files[0].name, url: files[0].url });
-    }
-  }, [files]);
-
   // 다운로드 Html2Canvas
   const previewRef = useRef<HTMLImageElement>(null);
-
-  console.log(previewRef.current);
 
   const download = () => {
     previewRef.current !== null &&
@@ -85,8 +69,6 @@ const Editor = () => {
         addFile={addFile}
         preview={preview}
         setPreview={setPreview}
-        selctDiv={selctDiv}
-        setSelectDiv={setSelectDiv}
       />
       <EditorCss className={open ? "active" : ""}>
         <Header preview={preview} download={download} />
@@ -121,7 +103,6 @@ const Editor = () => {
                   files={files}
                   addFile={addFile}
                   setPreview={setPreview}
-                  setSelectDiv={setSelectDiv}
                 />
               </div>
             </>

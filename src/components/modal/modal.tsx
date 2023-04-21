@@ -1,11 +1,13 @@
 import ModalCss from "./modalCss";
-import { IFiles } from "../../pages/editor/Editor";
+import { IFiles, IPreiew } from "../../pages/editor/Editor";
 
 interface IModal {
   setModal: React.Dispatch<React.SetStateAction<boolean>>;
   files: IFiles[];
   setFiles: React.Dispatch<React.SetStateAction<IFiles[]>>;
   selected: string;
+  preview: IPreiew | null;
+  setPreview: React.Dispatch<React.SetStateAction<IPreiew | null>>;
 }
 
 const Modal = (props: IModal) => {
@@ -13,7 +15,6 @@ const Modal = (props: IModal) => {
     props.setModal(false);
   };
   const remove = (item: string) => {
-    console.log(props.files, item);
     props.setFiles((prevFiles) =>
       prevFiles.filter((file) => file.name !== item)
     );
@@ -21,6 +22,22 @@ const Modal = (props: IModal) => {
       "files",
       JSON.stringify(props.files.filter((file) => file.name !== item))
     );
+
+    const prevFiles = props.files.filter((file) => file.name !== item);
+    console.log(prevFiles);
+    if (prevFiles.length > 0) {
+      props.setPreview({ name: prevFiles[0].name, url: prevFiles[0].url });
+      localStorage.setItem(
+        "preview",
+        JSON.stringify({
+          name: prevFiles[0].name,
+          url: prevFiles[0].url,
+        })
+      );
+    } else {
+      props.setPreview(null);
+      localStorage.setItem("preview", "");
+    }
     props.setModal(false);
   };
 

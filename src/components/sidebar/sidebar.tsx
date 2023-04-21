@@ -12,8 +12,6 @@ interface ISidebar {
   addFile: (file: IFiles) => void;
   preview: IPreiew | null;
   setPreview: React.Dispatch<React.SetStateAction<IPreiew | null>>;
-  selctDiv: string;
-  setSelectDiv: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const Sidebar = (props: ISidebar) => {
@@ -28,10 +26,7 @@ const Sidebar = (props: ISidebar) => {
   const selectPreview = (name: string, url: string) => {
     props.setPreview({ name, url });
     localStorage.setItem("preview", JSON.stringify({ name, url }));
-    props.setSelectDiv(name);
   };
-
-  console.log(props.preview);
 
   return (
     <SidebarCss className={props.open ? "active" : ""}>
@@ -53,7 +48,7 @@ const Sidebar = (props: ISidebar) => {
           <li
             key={file.id}
             className={`file ${
-              file.name === props.selctDiv ? "select-div" : ""
+              file.name === props.preview?.name ? "select-div" : ""
             }`}
             onClick={() => selectPreview(file.name, file.url)}
           >
@@ -71,7 +66,6 @@ const Sidebar = (props: ISidebar) => {
           files={props.files}
           addFile={props.addFile}
           setPreview={props.setPreview}
-          setSelectDiv={props.setSelectDiv}
         />
       </div>
       {modal && (
@@ -80,6 +74,8 @@ const Sidebar = (props: ISidebar) => {
           selected={selected}
           files={props.files}
           setFiles={props.setFiles}
+          preview={props.preview}
+          setPreview={props.setPreview}
         />
       )}
     </SidebarCss>

@@ -5,7 +5,7 @@ interface IFile {
   files: IFiles[];
   addFile: (file: IFiles) => void;
   setPreview: React.Dispatch<React.SetStateAction<IPreiew | null>>;
-  setSelectDiv: React.Dispatch<React.SetStateAction<string>>;
+
 }
 
 const FileBt = (props: IFile) => {
@@ -30,7 +30,6 @@ const FileBt = (props: IFile) => {
           url: reader.result as string,
         };
         props.addFile(newFile);
-        props.setSelectDiv(newFile.name);
         props.setPreview({ name: file.name, url: reader.result as string });
         localStorage.setItem(
           "preview",

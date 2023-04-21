@@ -10,17 +10,29 @@ interface ISidebar {
   files: IFiles[];
   setFiles: React.Dispatch<React.SetStateAction<IFiles[]>>;
   addFile: (file: IFiles) => void;
+  preview: IPreiew | null;
   setPreview: React.Dispatch<React.SetStateAction<IPreiew | null>>;
+  selctDiv: string;
+  setSelectDiv: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const Sidebar = (props: ISidebar) => {
   const [modal, setModal] = useState(false);
   const [selected, setSelected] = useState("");
+
   const openModal = (fileName: string) => {
     setSelected(fileName);
     setModal(true);
   };
-  const preview = () => {};
+
+  const selectPreview = (name: string, url: string) => {
+    props.setPreview({ name, url });
+    localStorage.setItem("preview", JSON.stringify({ name, url }));
+    props.setSelectDiv(name);
+  };
+
+  console.log(props.preview);
+
   return (
     <SidebarCss className={props.open ? "active" : ""}>
       <div className="side-top">
@@ -38,7 +50,13 @@ const Sidebar = (props: ISidebar) => {
       </div>
       <ul className="file-list">
         {props.files.map((file) => (
-          <li key={file.id} className="file" onClick={preview}>
+          <li
+            key={file.id}
+            className={`file ${
+              file.name === props.selctDiv ? "select-div" : ""
+            }`}
+            onClick={() => selectPreview(file.name, file.url)}
+          >
             <p>{file.name}</p>
             <img
               src={`${process.env.PUBLIC_URL}/images/Union.png`}
@@ -49,7 +67,12 @@ const Sidebar = (props: ISidebar) => {
         ))}
       </ul>
       <div className="file-bt">
-        <FileBt addFile={props.addFile} setPreview={props.setPreview} />
+        <FileBt
+          files={props.files}
+          addFile={props.addFile}
+          setPreview={props.setPreview}
+          setSelectDiv={props.setSelectDiv}
+        />
       </div>
       {modal && (
         <Modal

@@ -91,17 +91,24 @@ const SidebarCss = styled.div`
     }
     .file-list {
       display: block;
+      position: absolute;
+      top: 54px;
+      left: 0;
       transform: translateX(0%);
       animation-name: slide;
       animation-duration: 0.5s;
       animation-timing-function: ease;
       animation-fill-mode: forwards;
+      .select-div {
+        background: #e7e9ff;
+      }
       .file {
-        width: calc(240px - 24px);
+        width: 240px;
         height: 41px;
         display: flex;
         justify-content: space-between;
         align-items: center;
+        padding: 0 12px;
         img {
           width: 14px;
           height: 16px;

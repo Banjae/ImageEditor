@@ -17,9 +17,11 @@ const HeaderCss = styled.div`
     height: 28px;
     background: #ffffff;
     border-radius: 4px;
+    border: none;
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
     p {
       font-style: normal;
       font-weight: 600;

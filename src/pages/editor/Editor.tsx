@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Header from "../../components/header/header";
 import Sidebar from "../../components/sidebar/sidebar";
 import EditorCss from "./EditorCss";
 import FileBt from "../../components/fileBt/fileBt";
 import Toolbar from "../../components/toolbar/toolbar";
+import html2canvas from "html2canvas";
 
 export interface IFiles {
   id: number;
@@ -20,8 +21,13 @@ const Editor = () => {
   const [open, setOpen] = useState(false);
   const [files, setFiles] = useState<IFiles[]>([]);
   const [preview, setPreview] = useState<IPreiew | null>(null);
+  const [selctDiv, setSelectDiv] = useState<string>("");
 
-  console.log(preview);
+  useEffect(() => {
+    if (files.length > 0) {
+      setSelectDiv(files[0].id.toString());
+    }
+  }, [files]);
 
   const addFile = (file: IFiles) => {
     setFiles((prevFiles) => [...prevFiles, file]);
@@ -35,6 +41,40 @@ const Editor = () => {
     storagePrev && setPreview(JSON.parse(storagePrev));
   }, []);
 
+  useEffect(() => {
+    if (files.length > 0) {
+      setSelectDiv(files[0].name);
+      setPreview({ name: files[0].name, url: files[0].url });
+    }
+  }, [files]);
+
+  // 다운로드 Html2Canvas
+  const previewRef = useRef<HTMLImageElement>(null);
+
+  console.log(previewRef.current);
+
+  const download = () => {
+    previewRef.current !== null &&
+      html2canvas(previewRef.current).then((canvas) => {
+        const imgData = canvas.toDataURL("image/png");
+        const link = document.createElement("a");
+        link.setAttribute("download", "Image.png");
+        link.setAttribute("href", imgData);
+        link.click();
+      });
+  };
+
+  // 이미지 사이즈 조절
+  const [zoom, setZoom] = useState(1);
+
+  const zoomIn = () => {
+    setZoom((zoom) => zoom + 0.1);
+  };
+
+  const zoomOut = () => {
+    zoom > 0.5 && setZoom((zoom) => zoom - 0.1);
+  };
+
   return (
     <>
       <Sidebar
@@ -43,16 +83,31 @@ const Editor = () => {
         files={files}
         setFiles={setFiles}
         addFile={addFile}
+        preview={preview}
         setPreview={setPreview}
+        selctDiv={selctDiv}
+        setSelectDiv={setSelectDiv}
       />
       <EditorCss className={open ? "active" : ""}>
-        <Header preview={preview} />
+        <Header preview={preview} download={download} />
         <div className="container">
           {preview !== null ? (
             <>
               <Toolbar />
-              <div className="img-file">
-                <img src={preview.url} alt="" />
+              <div className="editor-zone">
+                <div className="image" style={{ transform: `scale(${zoom})` }}>
+                  <img src={preview.url} alt="preview" ref={previewRef} />
+                </div>
+                <div className="zoom">
+                  <div className="zoom-bt" onClick={zoomOut}>
+                    <img
+                      src={`${process.env.PUBLIC_URL}/images/zoom-out.png`}
+                    />
+                  </div>
+                  <div className="zoom-bt" onClick={zoomIn}>
+                    <img src={`${process.env.PUBLIC_URL}/images/zoom-in.png`} />
+                  </div>
+                </div>
               </div>
             </>
           ) : (
@@ -62,7 +117,12 @@ const Editor = () => {
                 하단의 버튼을 눌러 파일을 추가해주세요.
               </div>
               <div className="file-bt">
-                <FileBt addFile={addFile} setPreview={setPreview} />
+                <FileBt
+                  files={files}
+                  addFile={addFile}
+                  setPreview={setPreview}
+                  setSelectDiv={setSelectDiv}
+                />
               </div>
             </>
           )}

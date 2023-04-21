@@ -8,12 +8,32 @@ const EditorCss = styled.div`
     height: calc(894px - 42px);
     background: #fafafa;
     position: relative;
-    .img-file {
-      img {
+    .editor-zone {
+      height: calc(894px - 42px - 50px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: auto;
+      .image {
+      }
+      .zoom {
         position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+        bottom: 30px;
+        right: 30px;
+        width: 66px;
+        height: 25px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 16px;
+        .zoom-bt {
+          width: 25px;
+          height: 25px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          cursor: pointer;
+        }
       }
     }
     .file-text {
@@ -38,6 +58,12 @@ const EditorCss = styled.div`
     margin-left: 240px;
     width: calc(100% - 240px);
     .container {
+      .editor-zone {
+        .image {
+          img {
+          }
+        }
+      }
       .file-text {
         left: 408px;
       }

@@ -3,6 +3,7 @@ import { IPreiew } from "../../pages/editor/Editor";
 
 interface IHeader {
   preview: IPreiew | null;
+  download: () => void;
 }
 
 const Header = (props: IHeader) => {
@@ -11,7 +12,7 @@ const Header = (props: IHeader) => {
       {props.preview !== null ? (
         <>
           <p>{props.preview.name}</p>
-          <button className="download-bt">
+          <button className="download-bt" onClick={props.download}>
             <p>다운로드</p>
           </button>
         </>

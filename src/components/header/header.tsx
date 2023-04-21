@@ -1,9 +1,23 @@
 import HeaderCss from "./headerCss";
+import { IPreiew } from "../../pages/editor/Editor";
 
-const Header = () => {
+interface IHeader {
+  preview: IPreiew | null;
+}
+
+const Header = (props: IHeader) => {
   return (
     <HeaderCss>
-      <p>선택된 파일이 없습니다.</p>
+      {props.preview !== null ? (
+        <>
+          <p>{props.preview.name}</p>
+          <button className="download-bt">
+            <p>다운로드</p>
+          </button>
+        </>
+      ) : (
+        <p>선택된 파일이 없습니다.</p>
+      )}
     </HeaderCss>
   );
 };

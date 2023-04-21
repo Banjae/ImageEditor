@@ -8,6 +8,14 @@ const EditorCss = styled.div`
     height: calc(894px - 42px);
     background: #fafafa;
     position: relative;
+    .img-file {
+      img {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+    }
     .file-text {
       position: absolute;
       top: 327px;

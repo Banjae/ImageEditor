@@ -1,9 +1,9 @@
 import FileBtCss from "./fileBtCss";
-import { IFiles } from "../../pages/editor/Editor";
+import { IFiles, IPreiew } from "../../pages/editor/Editor";
 
 interface IFile {
   addFile: (file: IFiles) => void;
-  setImgURL: React.Dispatch<React.SetStateAction<string | null>>;
+  setPreview: React.Dispatch<React.SetStateAction<IPreiew | null>>;
 }
 
 const FileBt = (props: IFile) => {
@@ -22,7 +22,11 @@ const FileBt = (props: IFile) => {
           url: reader.result as string,
         };
         props.addFile(newFile);
-        props.setImgURL(reader.result as string);
+        props.setPreview({ name: file.name, url: reader.result as string });
+        localStorage.setItem(
+          "preview",
+          JSON.stringify({ name: file.name, url: reader.result as string })
+        );
       };
     }
   };

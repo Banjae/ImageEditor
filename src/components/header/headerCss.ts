@@ -11,6 +11,23 @@ const HeaderCss = styled.div`
   color: #dfdfdf;
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  .download-bt {
+    width: 118px;
+    height: 28px;
+    background: #ffffff;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    p {
+      font-style: normal;
+      font-weight: 600;
+      font-size: 14px;
+      line-height: 100%;
+      color: #49494a;
+    }
+  }
 `;
 
 export default HeaderCss;

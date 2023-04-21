@@ -3,6 +3,7 @@ import Header from "../../components/header/header";
 import Sidebar from "../../components/sidebar/sidebar";
 import EditorCss from "./EditorCss";
 import FileBt from "../../components/fileBt/fileBt";
+import Toolbar from "../../components/toolbar/toolbar";
 
 export interface IFiles {
   id: number;
@@ -10,10 +11,17 @@ export interface IFiles {
   url: string;
 }
 
+export interface IPreiew {
+  name: string;
+  url: string;
+}
+
 const Editor = () => {
   const [open, setOpen] = useState(false);
-  const [imgURL, setImgURL] = useState<string | null>(null);
   const [files, setFiles] = useState<IFiles[]>([]);
+  const [preview, setPreview] = useState<IPreiew | null>(null);
+
+  console.log(preview);
 
   const addFile = (file: IFiles) => {
     setFiles((prevFiles) => [...prevFiles, file]);
@@ -21,10 +29,10 @@ const Editor = () => {
   };
 
   useEffect(() => {
-    const storage = localStorage.getItem("files");
-    if (storage) {
-      setFiles(JSON.parse(storage));
-    }
+    const storageFile = localStorage.getItem("files");
+    storageFile && setFiles(JSON.parse(storageFile));
+    const storagePrev = localStorage.getItem("preview");
+    storagePrev && setPreview(JSON.parse(storagePrev));
   }, []);
 
   return (
@@ -33,16 +41,20 @@ const Editor = () => {
         open={open}
         setOpen={setOpen}
         files={files}
+        setFiles={setFiles}
         addFile={addFile}
-        setImgURL={setImgURL}
+        setPreview={setPreview}
       />
       <EditorCss className={open ? "active" : ""}>
-        <Header />
+        <Header preview={preview} />
         <div className="container">
-          {imgURL !== null ? (
-            <div>
-              <img src={imgURL} alt="" />
-            </div>
+          {preview !== null ? (
+            <>
+              <Toolbar />
+              <div className="img-file">
+                <img src={preview.url} alt="" />
+              </div>
+            </>
           ) : (
             <>
               <div className="file-text">
@@ -50,7 +62,7 @@ const Editor = () => {
                 하단의 버튼을 눌러 파일을 추가해주세요.
               </div>
               <div className="file-bt">
-                <FileBt addFile={addFile} setImgURL={setImgURL} />
+                <FileBt addFile={addFile} setPreview={setPreview} />
               </div>
             </>
           )}

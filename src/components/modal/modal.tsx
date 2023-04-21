@@ -1,7 +1,10 @@
 import ModalCss from "./modalCss";
+import { IFiles } from "../../pages/editor/Editor";
 
 interface IModal {
   setModal: React.Dispatch<React.SetStateAction<boolean>>;
+  files: IFiles[];
+  setFiles: React.Dispatch<React.SetStateAction<IFiles[]>>;
   selected: string;
 }
 
@@ -9,7 +12,17 @@ const Modal = (props: IModal) => {
   const cancel = () => {
     props.setModal(false);
   };
-  const remove = () => {};
+  const remove = (item: string) => {
+    console.log(props.files, item);
+    props.setFiles((prevFiles) =>
+      prevFiles.filter((file) => file.name !== item)
+    );
+    localStorage.setItem(
+      "files",
+      JSON.stringify(props.files.filter((file) => file.name !== item))
+    );
+    props.setModal(false);
+  };
 
   return (
     <ModalCss>
@@ -19,7 +32,7 @@ const Modal = (props: IModal) => {
           <button className="cancel-bt" onClick={cancel}>
             취소
           </button>
-          <button className="delete-bt" onClick={remove}>
+          <button className="delete-bt" onClick={() => remove(props.selected)}>
             삭제
           </button>
         </div>

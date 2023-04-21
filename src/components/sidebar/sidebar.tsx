@@ -1,15 +1,16 @@
 import FileBt from "../fileBt/fileBt";
 import Modal from "../modal/modal";
 import SidebarCss from "./sidebarCss";
-import { IFiles } from "../../pages/editor/Editor";
+import { IFiles, IPreiew } from "../../pages/editor/Editor";
 import { useState } from "react";
 
 interface ISidebar {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   files: IFiles[];
+  setFiles: React.Dispatch<React.SetStateAction<IFiles[]>>;
   addFile: (file: IFiles) => void;
-  setImgURL: React.Dispatch<React.SetStateAction<string | null>>;
+  setPreview: React.Dispatch<React.SetStateAction<IPreiew | null>>;
 }
 
 const Sidebar = (props: ISidebar) => {
@@ -19,6 +20,7 @@ const Sidebar = (props: ISidebar) => {
     setSelected(fileName);
     setModal(true);
   };
+  const preview = () => {};
   return (
     <SidebarCss className={props.open ? "active" : ""}>
       <div className="side-top">
@@ -36,20 +38,27 @@ const Sidebar = (props: ISidebar) => {
       </div>
       <ul className="file-list">
         {props.files.map((file) => (
-          <li key={file.id} className="file">
+          <li key={file.id} className="file" onClick={preview}>
             <p>{file.name}</p>
             <img
               src={`${process.env.PUBLIC_URL}/images/Union.png`}
-              alt=""
+              alt="delete"
               onClick={() => openModal(file.name)}
             />
           </li>
         ))}
       </ul>
       <div className="file-bt">
-        <FileBt addFile={props.addFile} setImgURL={props.setImgURL} />
+        <FileBt addFile={props.addFile} setPreview={props.setPreview} />
       </div>
-      {modal && <Modal setModal={setModal} selected={selected} />}
+      {modal && (
+        <Modal
+          setModal={setModal}
+          selected={selected}
+          files={props.files}
+          setFiles={props.setFiles}
+        />
+      )}
     </SidebarCss>
   );
 };

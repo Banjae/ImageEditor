@@ -17,6 +17,7 @@ const ToolbarCss = styled.div`
     width: 25px;
     height: 25px;
     cursor: pointer;
+    position: relative;
   }
   .toolbar-txt {
     display: flex;
@@ -29,6 +30,10 @@ const ToolbarCss = styled.div`
     height: 28px;
     color: #6d6d6d;
     cursor: pointer;
+  }
+  .clicked {
+    background: #dde0ff;
+    border-radius: 2px;
   }
 `;
 

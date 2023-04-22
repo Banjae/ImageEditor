@@ -75,7 +75,7 @@ const Editor = () => {
         <div className="container">
           {preview !== null ? (
             <>
-              <Toolbar />
+              <Toolbar previewRef={previewRef} />
               <div className="editor-zone">
                 <div className="image" style={{ transform: `scale(${zoom})` }}>
                   <img src={preview.url} alt="preview" ref={previewRef} />
